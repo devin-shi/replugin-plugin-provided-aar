@@ -1,0 +1,33 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        jcenter()
+    }
+    dependencies {
+        File localFile = project.rootProject.file('local.properties')
+        Properties extProperties = new Properties()
+        if (localFile.exists()) {
+            extProperties.load(localFile.newDataInputStream())
+        }
+        def androidGradlePluginVersion = "3.0.1"
+        if (extProperties.containsKey('gradleVersion')) {
+            androidGradlePluginVersion = extProperties.get("gradleVersion") as String
+        }
+        project.logger.error "root build.gradle androidGradlePluginVersion ${androidGradlePluginVersion}"
+
+        classpath "com.android.tools.build:gradle:${androidGradlePluginVersion}"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' }
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
